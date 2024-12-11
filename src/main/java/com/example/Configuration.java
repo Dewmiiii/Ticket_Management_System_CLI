@@ -7,11 +7,11 @@ import java.io.IOException;
 
 public class Configuration {
     private int totalTickets; //Total number of tickets
-    private int ticketReleaseRate; // Ticket release rate
-    private int customerRetrievalRate; // Customer retrieval rate
-    private int maxTicketCapacity; // Maximum ticket capacity of the ticket pool
+    private int ticketReleaseRate; // Interval (in seconds) at which tickets are released by vendors
+    private int customerRetrievalRate; // Interval (in seconds) at which customers retrieve tickets
+    private int maxTicketCapacity; // Maximum number of tickets the pool can hold
 
-    // constructor
+    // Constructor to initialize the configuration object
     public Configuration(int totalTickets, int ticketReleaseRate, int customerRetrievalRate, int maxTicketCapacity) {
         this.totalTickets = totalTickets;
         this.ticketReleaseRate = ticketReleaseRate;
@@ -19,6 +19,7 @@ public class Configuration {
         this.maxTicketCapacity = maxTicketCapacity;
     }
 
+    // Getter and setter methods for each field
     public int getTotalTickets() {
         return totalTickets;
     }
@@ -51,12 +52,13 @@ public class Configuration {
         this.maxTicketCapacity = maxTicketCapacity;
     }
 
-    //Method to save configuration into json file
+    // Method to save the current configuration to a JSON file
     public void saveConfig(Configuration config){
-        Gson gson = new Gson();
-        String json = gson.toJson(config);
+        Gson gson = new Gson(); // Initialize Gson for JSON processing
+        String json = gson.toJson(config);// Serialize the configuration object into a JSON string
+
         try {
-            FileWriter file = new FileWriter("config.json");
+            FileWriter file = new FileWriter("config.json"); // Open file for writing
             file.write(json);
             file.close();
         } catch (IOException e) {
@@ -64,7 +66,7 @@ public class Configuration {
         }
     }
 
-    //Method to load configuration
+    // Static method to load configuration from a JSON file
     public static Configuration loadConfig(String config){
         Gson gson = new Gson();
         try {
@@ -72,7 +74,7 @@ public class Configuration {
             return gson.fromJson(file, Configuration.class);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return null;  // Return null if loading fails
         }
     }
 }
